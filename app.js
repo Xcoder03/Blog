@@ -1,32 +1,20 @@
-import { express } from "express";
-import dotenv from "dotenv";
-dotenv.config()
+import express from "express"
+import dotenv from "dotenv"
+import userRoutes from "./routes/UserRoute.js";
+import postRoutes from "./routes/PostRoute.js";
+import { database } from "./config/DBConnect.js";
+
+dotenv.config();
+database();
+
 const app = express();
-app.use()
-const PORT = process.env.PORT || 8080
 
-// get users
+app.use(express.json())
 
-app.get("/api/v1/users", async(req,res) => {
-    try {
-        res.json({
-            status: "success",
-            data: "get users: "
-        })
-    } catch (error) {
-        res.json(error.message)
-    }
-});
-// delete user
-app.delete("/api/v1/users/id", async(req,res) => {
-    const userid = req.params.id;
-    try {
-        res.json({
-            status: "success",
-            data: "users account deleted sucessfully "
-        })
-    } catch (error) {
-        res.json(error.message)
-    }
-})
-app.listen(PORT, console.log(`App started at ${PORT}`));
+const PORT = process.env.PORT || 8080;
+
+app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/posts",postRoutes);
+
+
+app.listen(PORT, console.log(`Omor everywhere stew at port ${PORT} server don set.`))
