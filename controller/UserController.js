@@ -37,7 +37,7 @@ import bcrypt from 'bcrypt';
   } 
 
   //display all user
-export const displayAllController = async(req,res)=>{
+export const displayAllUsers = async(req,res)=>{
     try {
       const users = await User.find({})
       if(users){

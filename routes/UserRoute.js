@@ -1,12 +1,12 @@
 import express from 'express'
-import { createUserController, deleteUserController, displayAllController, profileController, updateUserController } from '../controller/UserController.js';
+import { createUserController, deleteUserController, displayAllUsers, profileController, updateUserController } from '../controller/UserController.js';
 
 const userRoutes = express.Router();
 
 //create user
 userRoutes.post("/create", createUserController);
 //get users
-userRoutes.get("",displayAllController);
+userRoutes.get("",displayAllUsers);
 //profile
 userRoutes.get("/:id",profileController);
 //delete user
