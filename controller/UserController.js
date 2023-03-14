@@ -12,12 +12,16 @@ import bcrypt from 'bcrypt';
             status:"error",
             message:"User with that email already exists",
           })
-        }else{
+        }
+         //hash password
+        else{
+          const salt = await bcrypt.genSalt(10)
+          const hashPassword = await bcrypt.hash(password, salt)
           const user = await User.create({
             firstname,
             lastname,
             email,
-            password
+            password: hashPassword,
           })
 
           res.json({
