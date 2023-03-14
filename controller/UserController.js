@@ -122,9 +122,9 @@ export const loginUser = async(req, res) =>{
   //delete user
   export const deleteUserController  = async(req,res)=>{
     const userid =  req.params.id;
-    const userDeleted = await User.findByIdAndDelete(userid)
-
     try {
+
+      const userDeleted = await User.findByIdAndDelete(userid)
       if(userDeleted){
         res.json({
           status:"success",
