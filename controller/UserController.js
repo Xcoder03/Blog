@@ -22,6 +22,7 @@ import bcrypt from 'bcrypt';
             lastname,
             email,
             password: hashPassword,
+            const users = await User.find({})
           })
 
           res.json({
@@ -38,10 +39,14 @@ import bcrypt from 'bcrypt';
   //display all user
 export const displayAllController = async(req,res)=>{
     try {
-      res.json({
+      const users = await User.find({})
+      if(users){
+        res.json({
           status:"success",
-          data:"Display all users"
-      })
+          data:users
+       })
+      }
+     
     } catch (error) {
       res.json(error.message);
     }
@@ -58,6 +63,11 @@ export const displayAllController = async(req,res)=>{
       res.json(error.message);
     }
   }
+
+
+  // login User
+
+  
 
   //update user
 
