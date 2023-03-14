@@ -22,7 +22,7 @@ import bcrypt from 'bcrypt';
             lastname,
             email,
             password: hashPassword,
-            const users = await User.find({})
+       
           })
 
           res.json({
@@ -66,7 +66,32 @@ export const displayAllController = async(req,res)=>{
 
 
   // login User
+export const loginUser = async(req, res) =>{
+  const {email, password} = req.body
+      try{
+        const Isuserfound = await User.findOne({email})
+        if(!Isuserfound){
+          return res.json({message: "Wrong email or password"})
+        }
+        // get password
 
+        const isPasswordCorrect  = await bcrypt.compare(password,Isuserfound.password)
+        if(isPasswordCorrect){
+          return res.json({message: "Wrong email or password"})
+        }
+
+        res.json({
+          status: "success",
+          data: Isuserfound,
+        })
+      }catch(err){
+        res.json(err.message)
+      }
+
+  
+
+
+}
   
 
   //update user
