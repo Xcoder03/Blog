@@ -1,5 +1,5 @@
 import express from 'express'
-import { createUserController, deleteUserController, displayAllUsers, profileController, updateUserController } from '../controller/UserController.js';
+import { createUserController, deleteUserController, displayAllUsers, profileController, updateUserController,loginUser } from '../controller/UserController.js';
 
 const userRoutes = express.Router();
 
@@ -7,6 +7,7 @@ const userRoutes = express.Router();
 userRoutes.post("/create", createUserController);
 //get users
 userRoutes.get("",displayAllUsers);
+userRoutes.post("/login",loginUser)
 //profile
 userRoutes.get("/:id",profileController);
 //delete user

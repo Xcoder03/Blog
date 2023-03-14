@@ -78,6 +78,7 @@ export const displayAllUsers = async(req,res)=>{
 export const loginUser = async(req, res) =>{
   const {email, password} = req.body
       try{
+
         const Isuserfound = await User.findOne({email})
         if(!Isuserfound){
           return res.json({message: "Wrong email or password"})
@@ -85,7 +86,7 @@ export const loginUser = async(req, res) =>{
         // get password
 
         const isPasswordCorrect  = await bcrypt.compare(password,Isuserfound.password)
-        if(isPasswordCorrect){
+        if(!isPasswordCorrect){
           return res.json({message: "Wrong email or password"})
         }
 
@@ -93,7 +94,8 @@ export const loginUser = async(req, res) =>{
           status: "success",
           data: Isuserfound,
         })
-      }catch(err){
+      }
+      catch(err){
         res.json(err.message)
       }
 
