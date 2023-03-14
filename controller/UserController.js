@@ -55,9 +55,18 @@ export const displayAllController = async(req,res)=>{
   export const profileController  = async(req,res)=>{
     const userid =  req.params.id;
     try {
+      const foundUser  =  await User.findById(userid);
+      if(!foundUser){
+        return res.json({
+          status:"error",
+          message:"No user associated with that Id",
+        })
+      }
+
+
       res.json({
           status:"success",
-          data:"get specific users: "+userid
+          data:foundUser
       })
     } catch (error) {
       res.json(error.message);
