@@ -122,11 +122,17 @@ export const loginUser = async(req, res) =>{
   //delete user
   export const deleteUserController  = async(req,res)=>{
     const userid =  req.params.id;
+    const userDeleted = await User.findByIdAndDelete(userid)
+
     try {
-      res.json({
+      if(userDeleted){
+        res.json({
           status:"success",
           data:`User account deleted successfully`
       })
+
+      }
+    
     } catch (error) {
       res.json(error.message);
     }
