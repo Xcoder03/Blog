@@ -1,6 +1,7 @@
 import User from "../model/User.js";
 import bcrypt from 'bcrypt';
-
+import generateToken from "../utils/generateToken.js";
+import { obtainToken } from "../utils/obtainToken.js";
  //create user
  export const createUserController = async(req,res)=>{
     const {firstname,lastname,profilephoto,email,password} = req.body;
@@ -92,7 +93,12 @@ export const loginUser = async(req, res) =>{
 
         res.json({
           status: "success",
-          data: Isuserfound,
+          data: {
+            firstname: Isuserfound.firstname,
+            lastname: Isuserfound.lastname,
+            email: Isuserfound.email,
+            token: generateToken(Isuserfound._id)
+          }
         })
       }
       catch(err){

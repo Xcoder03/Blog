@@ -3,7 +3,7 @@ import { verifyToken } from "../utils/verifyToken";
 
 export const isLogin = (req, res,next)=>{
     //get token header
-   const token = obtainTokenFromHeader(req);
+   const token = obtainToken(req);
    //verify
  
    const userDeCoded  = verifyToken(token);
