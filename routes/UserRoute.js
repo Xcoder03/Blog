@@ -1,10 +1,11 @@
 import express from 'express'
 import { createUserController, deleteUserController, displayAllUsers, profileController, updateUserController,loginUser } from '../controller/UserController.js';
 import { isLogin } from '../middlewares/isLogin.js';
+import { validateUser } from '../middlewares/uservalidation.js';
 const userRoutes = express.Router();
 
 //create user
-userRoutes.post("/create", createUserController);
+userRoutes.post("/create", validateUser,  createUserController);
 //get users
 userRoutes.get("all",displayAllUsers);
 userRoutes.post("/login",loginUser)
