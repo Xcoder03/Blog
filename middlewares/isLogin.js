@@ -1,7 +1,7 @@
-import { obtainToken } from "../utils/obtainToken";
-import { verifyToken } from "../utils/verifyToken";
+import { obtainToken } from "../utils/obtainToken.js";
+import { verifyToken } from "../utils/verifyToken.js";
 
-export const isLogin = (req, res,next)=>{
+export const isLogin = (req, res, next)=>{
     //get token header
    const token = obtainToken(req);
    //verify

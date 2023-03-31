@@ -1,7 +1,7 @@
 export const obtainToken = (req) =>{
     const  headerDetails = req.headers;
     const token = headerDetails['authorization'].split(" ")[1];
-    if(token !==undefined){
+    if(token !== undefined){
         return token
     }else{
         return{

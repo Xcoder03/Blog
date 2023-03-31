@@ -54,9 +54,9 @@ export const displayAllUsers = async(req,res)=>{
   }
   //profile
   export const profileController  = async(req,res)=>{
-    const userid =  req.params.id;
     try {
-      const foundUser  =  await User.findById(userid);
+      const token= obtainToken(req)
+      const foundUser  =  await User.findById(req.userAuth);
       if(!foundUser){
         return res.json({
           status:"error",
