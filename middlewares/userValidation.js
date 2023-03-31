@@ -1,5 +1,5 @@
 import joi from   'joi'
-import User from '../model/User'
+import User from '../model/User.js'
 
 
 export const validateUser = async(req, res, next) =>{
@@ -11,7 +11,7 @@ export const validateUser = async(req, res, next) =>{
     })
 
     const validateResult = Schema.validate(req.body);
-    if(!validateResult.error){
+    if(validateResult.error){
         return res.status(400).json(validateResult.error.message)
     }
     next()

@@ -1,7 +1,7 @@
 import express from 'express'
 import { createUserController, deleteUserController, displayAllUsers, profileController, updateUserController,loginUser } from '../controller/UserController.js';
 import { isLogin } from '../middlewares/isLogin.js';
-import { validateUser } from '../middlewares/uservalidation.js';
+import { validateUser } from '../middlewares/userValidation.js';
 const userRoutes = express.Router();
 
 //create user
