@@ -82,7 +82,7 @@ export const loginUser = async(req, res) =>{
 
         const Isuserfound = await User.findOne({email})
         if(!Isuserfound){
-          return res.json({message: "Wrong email or password"})
+          return res.json({message: "Wrong email"})
         }
         // get password
 
@@ -91,7 +91,7 @@ export const loginUser = async(req, res) =>{
           return res.json({message: "Wrong email or password"})
         }
 
-        res.json({
+        request.json({
           status: "success",
           data: {
             firstname: Isuserfound.firstname,
@@ -103,10 +103,7 @@ export const loginUser = async(req, res) =>{
       }
       catch(err){
         res.json(err.message)
-      }
-
-  
-
+      } 
 
 }
   
@@ -142,4 +139,46 @@ export const loginUser = async(req, res) =>{
     } catch (error) {
       res.json(error.message);
     }
+  }
+
+  export const followUser = async(req, res) =>{
+    try {
+          //find user to follow
+        const userToFollow = await User.findById(req.params.id);
+    // console.log(userToFollow);
+    const userWhoIsFollowing = await User.findById(req.userAuth);
+    if(userToFollow && userWhoIsFollowing){
+      const userAlreadyFollowed = userToFollow.followers.find(
+        (follower) => follower.toString() === userWhoIsFollowing._id.toString()
+      )
+
+      
+      if (userAlreadyFollowed) {
+        return res.json({
+          status: "error",
+          message: "You have previously followed this user",
+        });
+
+      }else{
+           //push user that followed to the user follower array
+           userToFollow.followers.push(userWhoIsFollowing._id);
+           //push that is following
+           userWhoIsFollowing.following.push(userToFollow._id);
+
+
+           await userToFollow.save();
+           await userwhoisfollowing.save();
+
+           res.json({
+            status: "success",
+            data: "You have successfuly following this user",
+          });
+      } 
+    }
+
+      
+    } catch (error) {
+      res.json(error.message);
+    }
+
   }
