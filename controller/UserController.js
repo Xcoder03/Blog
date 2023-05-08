@@ -280,3 +280,46 @@ export const loginUser = async(req, res) =>{
       res.json(error.message);
     }
   };
+
+
+  export const unblockedUserController = async (req, res) => {
+    try {
+      //1. find the user to be unblocked
+  
+      const userToBeUnBlocked = await User.findById(req.params.id);
+      //2. find the user that want to unblocked another user
+      const userThatWantToUnBlockedAnotherUser = await User.findById(
+        req.userAuth
+      );
+  
+      //check if 1 and 2 exists
+  
+      if (userToBeUnBlocked && userThatWantToUnBlockedAnotherUser) {
+        const isUserAlreadyUnBlocked =
+          userThatWantToUnBlockedAnotherUser.blocked.find(
+            (block) => block.toString() === userToBeUnBlocked._id.toString()
+          );
+        if (!isUserAlreadyUnBlocked) {
+          return res.json({
+            status: "error",
+            message: "You have not blocked this user",
+          });
+        }
+  
+        //remove the user from blocked array
+        userThatWantToUnBlockedAnotherUser.blocked =
+          userThatWantToUnBlockedAnotherUser.blocked.filter(
+            (blocked) => blocked.toString() !== userToBeUnBlocked._id.toString()
+          );
+        //save
+        userThatWantToUnBlockedAnotherUser.save();
+        res.json({
+          status: "success",
+          data: "You have successfully unblocked this user",
+        });
+      }
+    } catch (error) {
+      res.json(error.message);
+    }
+  };
+  
