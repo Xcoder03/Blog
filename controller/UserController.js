@@ -182,3 +182,60 @@ export const loginUser = async(req, res) =>{
     }
 
   }
+
+
+  // user to unfollow
+
+  export const unfollowUser = async(req,res) =>{
+    try {
+      //get the user to unfollow
+
+    const userToUnFollow = await User.findById(req.params.id);
+    // console.log(userToUnFollow);
+
+    //get the id of the user that want to unfollow another user
+
+    const userThatWantToUnFollow = await User.findById(req.userAuth);
+      if(userToUnFollow && userThatWantToUnFollow){
+              //check if userwho to unfollowe is already in the user follower array
+
+        
+      const isUserAlreadyUnfollowed = userToUnFollow.followers.find(
+        (follower) =>
+          follower.toString() === userThatWantToUnFollow._id.toString()
+        );
+
+        if (!isUserAlreadyUnfollowed) {
+          res.json({
+            status: "error",
+            message: "You have not followed this user",
+          });
+        }else {
+          //remove the user who unfollow from the follower's array
+          userToUnFollow.followers = userToUnFollow.followers.filter(
+            (follower) =>
+              follower.toString() !== userThatWantToUnFollow._id.toString()
+          );
+
+          
+        await userToUnFollow.save();
+        //remove user to be unfollowed from the user who is following array
+        userThatWantToUnFollow.following =
+          userThatWantToUnFollow.following.filter(
+            (following) =>
+              following.toString() !== userToUnFollow._id.toString()
+          );
+          await userthatwanttounfollow.save();
+
+          res.json({
+            status: "success",
+            data: "You have successfully unfollow this user",
+          });
+
+        }
+
+      }
+    } catch (error) {
+      res.json(error.message);
+    }
+  }
