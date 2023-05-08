@@ -239,3 +239,44 @@ export const loginUser = async(req, res) =>{
       res.json(error.message);
     }
   }
+
+
+
+  export const blockUserCtroller = async (req, res) => {
+    try {
+      //1 find the user that we want to be blocked
+      const userToBeBlocked = await User.findById(req.params.id);
+      // console.log(userToBeBlocked);
+      //2 user that want to block another user
+      const userThatWantToBlockAnotherUser = await User.findById(req.userAuth);
+      // console.log(userThatWantToBlockAnotherUser);
+  
+      //check if 1 and 2
+      if (userToBeBlocked && userThatWantToBlockAnotherUser) {
+        //check if the this user has been previously been blocked
+  
+        const isUserAlreadyBeenBlocked =
+          userThatWantToBlockAnotherUser.blocked.find(
+            (blocked) => blocked.toString() === userToBeBlocked._id.toString()
+          );
+        if (isUserAlreadyBeenBlocked) {
+          return res.json({
+            status: "error",
+            message: "You have already blocked this user",
+          });
+        }
+  
+        //block the user
+        userThatWantToBlockAnotherUser.blocked.push(userToBeBlocked._id);
+  
+        //save
+        await userThatWantToBlockAnotherUser.save();
+        res.json({
+          status: "success",
+          data: "You have blocked this user",
+        });
+      }
+    } catch (error) {
+      res.json(error.message);
+    }
+  };
