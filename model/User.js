@@ -140,6 +140,10 @@ userSchema.virtual("followingcount").get(function () {
   return this.following.length;
 });
 
+userSchema.virtual("blockuserCount").get(function () {
+  return this.blocked.length;
+});
+
 
 const User = mongoose.model("User",userSchema);
 export default User
