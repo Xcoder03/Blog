@@ -144,6 +144,10 @@ userSchema.virtual("blockuserCount").get(function () {
   return this.blocked.length;
 });
 
+userSchema.virtual("initials").get(function () {
+  return `${this.firstname[0]}${this.lastname[0]}`;
+});
+
 
 const User = mongoose.model("User",userSchema);
 export default User
