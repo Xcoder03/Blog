@@ -91,7 +91,7 @@ export const loginUser = async(req, res) =>{
           return res.json({message: "Wrong email or password"})
         }
 
-        request.json({
+        res.json({
           status: "success",
           data: {
             firstname: Isuserfound.firstname,

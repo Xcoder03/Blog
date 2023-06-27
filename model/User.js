@@ -80,6 +80,15 @@ const userSchema = new mongoose.Schema({
       },
 
 
+      resetToken: {
+        type: String,
+      },
+  
+      reseTokenExpiration: {
+        type: Date,
+      },
+
+
 },{ 
     timestamps:true,
     toJSON:{virtuals:true}
