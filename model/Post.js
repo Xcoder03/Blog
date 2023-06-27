@@ -55,6 +55,78 @@ const postSchema = new mongoose.Schema(
 }
 );
 
+
+postSchema.pre(/^find/, function (next) {
+  postSchema.virtual("viewCount").get(function () {
+    const post = this;
+    return post.numViews.length;
+  });
+  //likes
+  postSchema.virtual("likeCount").get(function () {
+    const post = this;
+    return post.likes.length;
+  });
+  //dislikes
+
+  postSchema.virtual("dislikeCount").get(function () {
+    const post = this;
+    return post.dislikes.length;
+  });
+
+  //like percentage
+  postSchema.virtual("likepercentage").get(function () {
+    const post = this;
+    const total = +post.likes.length + +post.dislikes.length;
+    const percentage = (post.likes.length / total) * 100;
+    return post.likes.length === 0 && post.dislikes.length === 0
+      ? "0%"
+      : `${percentage}%`;
+  });
+
+  //dislike percentage
+  postSchema.virtual("dislikepercentage").get(function () {
+    const post = this;
+    const total = +post.likes.length + +post.dislikes.length;
+    const percentage = (post.dislikes.length / total) * 100;
+    return post.likes.length === 0 && post.dislikes.length === 0
+      ? "0%"
+      : `${percentage}%`;
+  });
+
+  //days ago
+  postSchema.virtual("daysAgo").get(function () {
+    const post = this;
+    const postDate = new Date(post.createdAt);
+    //get current date
+    const currentDate = new Date();
+    //get difference in miliseconds
+    const timeDifferrence = currentDate.getTime() - postDate.getTime();
+
+    //convert to millisecond
+    const seconds = Math.floor(timeDifferrence / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+    const years = Math.floor(days / 365);
+
+    let output;
+    if (years > 0) {
+      output = `${years} year${years > 1 ? "s" : ""} ago`;
+    } else if (days > 0) {
+      output = `${days} day${days > 1 ? "s" : ""} ago`;
+    } else if (hours > 0) {
+      output = `${hours} hour${hours > 1 ? "s" : ""} ago`;
+    } else if (minutes > 0) {
+      output = `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
+    } else {
+      output = `${seconds} second${seconds > 1 ? "s" : ""} ago`;
+    }
+    return output;
+  });
+
+  next();
+});
+
 const Post = mongoose.model("Post",postSchema);
 
 export default Post;
