@@ -124,6 +124,10 @@ const userSchema = new mongoose.Schema({
     toJSON:{virtuals:true}
 });
 
+userSchema.virtual("fullname").get(function () {
+  return `${this.firstname}  ${this.lastname}`;
+});
+
 
 const User = mongoose.model("User",userSchema);
 export default User
