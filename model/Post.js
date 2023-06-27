@@ -49,6 +49,12 @@ const postSchema = new mongoose.Schema(
   photo:{
     type:String
   },
+
+  createdAt: {
+    type: Date,
+    default: Date.now(),
+
+},
 },{
     timestamps:true,
     toJSON:{virtuals:true}
