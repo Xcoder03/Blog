@@ -132,6 +132,10 @@ userSchema.virtual("postCounts").get(function () {
   return this.posts.length;
 });
 
+userSchema.virtual("followercount").get(function () {
+  return this.followers.length;
+});
+
 
 const User = mongoose.model("User",userSchema);
 export default User
