@@ -128,6 +128,10 @@ userSchema.virtual("fullname").get(function () {
   return `${this.firstname}  ${this.lastname}`;
 });
 
+userSchema.virtual("postCounts").get(function () {
+  return this.posts.length;
+});
+
 
 const User = mongoose.model("User",userSchema);
 export default User
