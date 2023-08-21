@@ -5,7 +5,7 @@ import { validateUser } from '../middlewares/userValidation.js';
 const userRoutes = express.Router();
 
 //create user
-userRoutes.post("/create", validateUser,  createUserController);
+userRoutes.post("/create-user", validateUser,  createUserController);
 //get users
 userRoutes.get("all",displayAllUsers);
 userRoutes.post("/login",loginUser)
